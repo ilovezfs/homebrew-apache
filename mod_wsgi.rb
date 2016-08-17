@@ -13,9 +13,8 @@ class ModWsgi < Formula
 
   desc "Host Python web apps supporting the Python WSGI spec"
   homepage "http://modwsgi.readthedocs.org/en/latest/"
-  url "https://github.com/GrahamDumpleton/mod_wsgi/archive/4.4.11.tar.gz"
-  sha256 "e1d6b95f696af49a334419b60e1271872f8d446027acc481ef5c9c912cbb0328"
-
+  url "https://github.com/GrahamDumpleton/mod_wsgi/archive/4.5.5.tar.gz"
+  sha256 "dfab99c5fba44cf1393f216eb4f1257a1d0fa700940f6d00ec4c5a377f5aec88"
   head "https://github.com/GrahamDumpleton/mod_wsgi.git"
 
   bottle do
@@ -81,7 +80,7 @@ class ModWsgi < Formula
     system "./configure", *args
     system "make", "LIBEXECDIR=#{libexec}", "install"
 
-    (share/"mod_wsgi").install "tests"
+    pkgshare.install "tests"
     doc.install "README.rst"
   end
 
