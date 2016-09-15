@@ -13,8 +13,8 @@ class ModWsgi < Formula
 
   desc "Host Python web apps supporting the Python WSGI spec"
   homepage "http://modwsgi.readthedocs.org/en/latest/"
-  url "https://github.com/GrahamDumpleton/mod_wsgi/archive/4.5.6.tar.gz"
-  sha256 "399c7dc5446db285a8b0dd42b9420faab7db043a83df3521ab964a74dd34d263"
+  url "https://github.com/GrahamDumpleton/mod_wsgi/archive/4.5.7.tar.gz"
+  sha256 "8d84a7bc6983c776ca50ba8183b450cc6f75fd8cca8ae0bc9a582073f8e4eeec"
   head "https://github.com/GrahamDumpleton/mod_wsgi.git"
 
   bottle do
