@@ -13,8 +13,8 @@ class ModWsgi < Formula
 
   desc "Host Python web apps supporting the Python WSGI spec"
   homepage "http://modwsgi.readthedocs.org/en/latest/"
-  url "https://github.com/GrahamDumpleton/mod_wsgi/archive/4.5.7.tar.gz"
-  sha256 "8d84a7bc6983c776ca50ba8183b450cc6f75fd8cca8ae0bc9a582073f8e4eeec"
+  url "https://github.com/GrahamDumpleton/mod_wsgi/archive/4.5.9.tar.gz"
+  sha256 "35a164922aa331083dfd72cef6dd94281d27a2b3f0582443764e7bb4dedb2db5"
   head "https://github.com/GrahamDumpleton/mod_wsgi.git"
 
   bottle do
@@ -39,13 +39,13 @@ class ModWsgi < Formula
 
   def apache_apxs
     if build.with? "homebrew-httpd22"
-      %W[sbin bin].each do |dir|
+      %w[sbin bin].each do |dir|
         if File.exist?(location = "#{Formula["httpd22"].opt_prefix}/#{dir}/apxs")
           return location
         end
       end
     elsif build.with? "homebrew-httpd24"
-      %W[sbin bin].each do |dir|
+      %w[sbin bin].each do |dir|
         if File.exist?(location = "#{Formula["httpd24"].opt_prefix}/#{dir}/apxs")
           return location
         end
