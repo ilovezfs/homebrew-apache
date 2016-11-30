@@ -32,6 +32,7 @@ class ModWsgi < Formula
   deprecated_option "with-brewed-httpd24" => "with-homebrew-httpd24"
   deprecated_option "with-brewed-python" => "with-homebrew-python"
 
+  depends_on "apr-util"
   depends_on "httpd22" if build.with? "homebrew-httpd22"
   depends_on "httpd24" if build.with? "homebrew-httpd24"
   depends_on "python" if build.with? "homebrew-python"
