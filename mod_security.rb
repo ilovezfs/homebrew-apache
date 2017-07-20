@@ -12,9 +12,9 @@ class ModSecurity < Formula
   end
 
   desc "Open Source Web application firewall"
-  homepage "http://www.modsecurity.org/"
-  url "https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.1/modsecurity-2.9.1.tar.gz"
-  sha256 "958cc5a7a7430f93fac0fd6f8b9aa92fc1801efce0cda797d6029d44080a9b24"
+  homepage "https://www.modsecurity.org/"
+  url "https://github.com/SpiderLabs/ModSecurity/releases/download/v2.9.2/modsecurity-2.9.2.tar.gz"
+  sha256 "41a8f73476ec891f3a9e8736b98b64ea5c2105f1ce15ea57a1f05b4bf2ffaeb5"
   head "https://github.com/SpiderLabs/ModSecurity.git"
 
   bottle do
@@ -34,31 +34,41 @@ class ModSecurity < Formula
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
-  depends_on "apr-util" if build.with? "homebrew-apr"
-  depends_on "httpd22" if build.with? "homebrew-httpd22"
-  depends_on "httpd24" if build.with? "homebrew-httpd24"
-  depends_on "libtool" => :build
-  depends_on "pcre"
-  depends_on CLTRequirement if build.without?("homebrew-httpd22") && build.without?("homebrew-httpd24")
 
-  # Mavericks and older OS requires a more recent curl version than what's bundled
-  if MacOS.version <= :mavericks
-    depends_on "curl"
+  if build.with?("homebrew-apr") || MacOS.version >= :sierra
+    depends_on "apr"
+    depends_on "apr-util"
   end
 
-  if build.with?("homebrew-apr") && (build.with?("homebrew-httpd22") || build.with?("homebrew-httpd24"))
+  if build.with? "homebrew-httpd22"
+    depends_on "httpd22"
+  elsif build.with?("homebrew-httpd24") || MacOS.version >= :sierra
+    depends_on "httpd24"
+  end
+
+  depends_on "libtool" => :build
+  depends_on "pcre"
+
+  if build.without?("homebrew-httpd22") && build.without?("homebrew-httpd24") && MacOS.version < :sierra
+    depends_on CLTRequirement
+  end
+
+  # Mavericks and older OS requires a more recent curl version than what's bundled
+  depends_on "curl" if MacOS.version <= :mavericks
+
+  if build.with?("homebrew-apr") && (build.with?("homebrew-httpd22") || build.with?("homebrew-httpd24") || MacOS.version >= :siera)
     opoo "Ignoring --with-homebrew-apr: homebrew apr included in httpd22 and httpd24"
   end
 
   def apache_apxs
     if build.with? "homebrew-httpd22"
-      %W[sbin bin].each do |dir|
+      ["sbin", "bin"].each do |dir|
         if File.exist?(location = "#{Formula["httpd22"].opt_prefix}/#{dir}/apxs")
           return location
         end
       end
-    elsif build.with? "homebrew-httpd24"
-      %W[sbin bin].each do |dir|
+    elsif build.with?("homebrew-httpd24") || MacOS.version >= :sierra
+      ["sbin", "bin"].each do |dir|
         if File.exist?(location = "#{Formula["httpd24"].opt_prefix}/#{dir}/apxs")
           return location
         end
@@ -71,7 +81,7 @@ class ModSecurity < Formula
   def apache_configdir
     if build.with? "homebrew-httpd22"
       "#{etc}/apache2/2.2"
-    elsif build.with? "homebrew-httpd24"
+    elsif build.with?("homebrew-httpd24") || MacOS.version >= :sierra
       "#{etc}/apache2/2.4"
     else
       "/etc/apache2"
@@ -90,7 +100,7 @@ class ModSecurity < Formula
       --with-apxs=#{apache_apxs}
     ]
 
-    if build.with?("homebrew-httpd22") || build.with?("homebrew-httpd24") || build.with?("homebrew-apr")
+    if build.with?("homebrew-httpd22") || build.with?("homebrew-httpd24") || build.with?("homebrew-apr") || MacOS.version >= :sierra
       args << "--with-apr=#{Formula["apr"].opt_prefix}"
       args << "--with-apu=#{Formula["apr-util"].prefix}/bin"
     else
