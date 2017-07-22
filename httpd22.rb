@@ -1,8 +1,8 @@
 class Httpd22 < Formula
   desc "HTTP server"
   homepage "https://httpd.apache.org/"
-  url "https://archive.apache.org/dist/httpd/httpd-2.2.32.tar.bz2"
-  sha256 "527bc9d8092d784daf08910dd6c9d2681d6a2325055b2cc69806a0a7df7ed650"
+  url "https://archive.apache.org/dist/httpd/httpd-2.2.34.tar.bz2"
+  sha256 "e53183d5dfac5740d768b4c9bea193b1099f4b06b57e5f28d7caaf9ea7498160"
 
   bottle do
     sha256 "296d67b38cc3cdf326530edc573291f5a7de6caa1538b361da55bd874e2c0c47" => :sierra
